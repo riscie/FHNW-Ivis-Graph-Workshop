@@ -1,20 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <title>ivis</title>
+    <link href="style.css" rel="stylesheet" />
+    <meta charset=utf-8 />
+    <title>ivis-cytoscape</title>
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, minimal-ui">
+    <script src="node_modules/cytoscape/dist/cytoscape.js"></script>
 </head>
 
 <body>
-    <div id="cy" style="-webkit-tap-highlight-color: rgba(0,0,0,0);">
-<div style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative; z-index: 0; overflow: hidden; width: 1920px; height: 587px;">
-</div>
-
-    </div>
-    <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="node_modules/cytoscape/dist/cytoscape.js"></script>
-    <script type="text/javascript" src="app.js"></script>
+    <div id="cy"></div>
+    <script src="app.js"></script>
 </body>
 
 </html>

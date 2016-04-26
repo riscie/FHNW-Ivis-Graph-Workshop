@@ -1,77 +1,77 @@
-$(function() { // on dom ready
+var cy = cytoscape({
+    container: document.getElementById('cy'),
 
-    $('#cy').cytoscape({
-        layout: {
-            name: 'cose',
-            padding: 10
-        },
+    elements: {
+        nodes: [
+            { data: { id: '0', name: 'Alfred Mauser' }, classes: "artist"},
+            { data: { id: '1', name: 'Karl Lager' }, classes: "artist" },
+            { data: { id: '2', name: 'Sandra Kunz' }, classes: "artist" },
+            { data: { id: '3', name: 'Frederic Müller' }, classes: "artist" },
+            { data: { id: '4', name: 'Kevin Kist' }, classes: "artist" },
+            { data: { id: '5', name: 'Manfred Körig' }, classes: "artist"},
+            { data: { id: '6', name: 'Alfredo Luigi' }, classes: "artist" },
+            { data: { id: '7', name: 'Cesto Alani' }, classes: "artist" },
+            { data: { id: '8', name: 'Mark Muster' }, classes: "artist" },
+            { data: { id: '9', name: 'Franz Bell' }, classes: "artist" },
 
-        style: cytoscape.stylesheet()
-            .selector('node')
-            .css({
-                'shape': 'data(faveShape)',
-                'width': 'mapData(weight, 40, 80, 20, 60)',
-                'content': 'data(name)',
-                'text-valign': 'center',
-                'text-outline-width': 2,
-                'text-outline-color': 'data(faveColor)',
-                'background-color': 'data(faveColor)',
-                'color': '#fff'
-            })
-            .selector(':selected')
-            .css({
-                'border-width': 3,
-                'border-color': '#333'
-            })
-            .selector('edge')
-            .css({
-                'opacity': 0.666,
-                'width': 'mapData(strength, 70, 100, 2, 6)',
-                'target-arrow-shape': 'triangle',
-                'source-arrow-shape': 'circle',
-                'line-color': 'data(faveColor)',
-                'source-arrow-color': 'data(faveColor)',
-                'target-arrow-color': 'data(faveColor)'
-            })
-            .selector('edge.questionable')
-            .css({
-                'line-style': 'dotted',
-                'target-arrow-shape': 'diamond'
-            })
-            .selector('.faded')
-            .css({
-                'opacity': 0.25,
-                'text-opacity': 0
-            }),
+            { data: { id: '100', name: 'Bildpreis 2010' }, classes: "prize" },
+            { data: { id: '101', name: 'Bildpreis 2012' }, classes: "prize" },
+            { data: { id: '102', name: 'CulturePrize One' }, classes: "prize" },
 
-        elements: {
-            nodes: [
-                { data: { id: 'j', name: 'Jerry', weight: 65, faveColor: '#6FB1FC', faveShape: 'triangle' } },
-                { data: { id: 'e', name: 'Elaine', weight: 45, faveColor: '#EDA1ED', faveShape: 'ellipse' } },
-                { data: { id: 'k', name: 'Kramer', weight: 75, faveColor: '#86B342', faveShape: 'octagon' } },
-                { data: { id: 'g', name: 'George', weight: 70, faveColor: '#F5A45D', faveShape: 'rectangle' } }
-            ],
-            edges: [
-                { data: { source: 'j', target: 'e', faveColor: '#6FB1FC', strength: 90 } },
-                { data: { source: 'j', target: 'k', faveColor: '#6FB1FC', strength: 70 } },
-                { data: { source: 'j', target: 'g', faveColor: '#6FB1FC', strength: 80 } },
 
-                { data: { source: 'e', target: 'j', faveColor: '#EDA1ED', strength: 95 } },
-                { data: { source: 'e', target: 'k', faveColor: '#EDA1ED', strength: 60 }, classes: 'questionable' },
+        ],
+        edges: [
+            { data: { source: '0', target: '1' } },
+            { data: { source: '1', target: '2' } },
+            { data: { source: '1', target: '3' } },
+            { data: { source: '9', target: '5' } },
+            { data: { source: '1', target: '9' } },
+            { data: { source: '6', target: '9' } },
+            { data: { source: '6', target: '7' } },
+            { data: { source: '8', target: '1' } },
+            { data: { source: '2', target: '100' }, classes: "prize" },
+            { data: { source: '4', target: '101' }, classes: "prize" },
+            { data: { source: '1', target: '102' }, classes: "prize" }
 
-                { data: { source: 'k', target: 'j', faveColor: '#86B342', strength: 100 } },
-                { data: { source: 'k', target: 'e', faveColor: '#86B342', strength: 100 } },
-                { data: { source: 'k', target: 'g', faveColor: '#86B342', strength: 100 } },
+        ]
+    },
+    style: cytoscape.stylesheet()
+        .selector('node')
+        .css({
+            'content': 'data(name)',
+            'text-valign': 'top',
+            'color': '#000'
+        })
+        .selector('node.artist')
+        .css({
+            'shape': 'roundrectangle',
+            'font-size': '14',
+            'background-color': '#ECD078'
+        })
+        .selector('node.prize')
+        .css({
+            'shape': 'star',
+            'font-size': '18',
+            'font-style': 'bold',
+            'background-color': '#C02942',
+        })
+        .selector('edge.prize')
+          .css({
+            'width': '5px',
+            'target-arrow-shape': 'triangle-tee'
+          })
 
-                { data: { source: 'g', target: 'j', faveColor: '#F5A45D', strength: 90 } }
-            ]
-        },
 
-        ready: function() {
-            window.cy = this;
 
-            // giddy up
-        }
-    });
+});
 
-}); // on dom ready
+var options = {
+  name: 'random',
+  fit: true, // whether to fit to viewport
+  padding: 10, // fit padding
+  boundingBox: undefined, // constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
+  animate: true, // whether to transition the node positions
+  animationDuration: 1500, // duration of animation in ms if enabled
+};
+
+cy.layout( options );
