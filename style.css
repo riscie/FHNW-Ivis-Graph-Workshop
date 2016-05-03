@@ -1,5 +1,10 @@
 body {
     font: 14px helvetica neue, helvetica, arial, sans-serif;
+    background: url('/images/bg2.png') no-repeat center center fixed;
+    -webkit-background-size: fixed;
+    -moz-background-size: fixed;
+    -o-background-size: fixed;
+    background-size: fixed;
 }
 
 #cy {

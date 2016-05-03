@@ -1,77 +1,99 @@
-var cy = cytoscape({
-    container: document.getElementById('cy'),
+(function(win) {
+    $.getJSON("/api/sample_output.json", processJSON);
 
-    elements: {
-        nodes: [
-            { data: { id: '0', name: 'Alfred Mauser' }, classes: "artist"},
-            { data: { id: '1', name: 'Karl Lager' }, classes: "artist" },
-            { data: { id: '2', name: 'Sandra Kunz' }, classes: "artist" },
-            { data: { id: '3', name: 'Frederic Müller' }, classes: "artist" },
-            { data: { id: '4', name: 'Kevin Kist' }, classes: "artist" },
-            { data: { id: '5', name: 'Manfred Körig' }, classes: "artist"},
-            { data: { id: '6', name: 'Alfredo Luigi' }, classes: "artist" },
-            { data: { id: '7', name: 'Cesto Alani' }, classes: "artist" },
-            { data: { id: '8', name: 'Mark Muster' }, classes: "artist" },
-            { data: { id: '9', name: 'Franz Bell' }, classes: "artist" },
+    function processJSON(json) {
+        var nodes = [];
+        var edges = [];
 
-            { data: { id: '100', name: 'Bildpreis 2010' }, classes: "prize" },
-            { data: { id: '101', name: 'Bildpreis 2012' }, classes: "prize" },
-            { data: { id: '102', name: 'CulturePrize One' }, classes: "prize" },
+        //creating people nodes
+        nodes.push.apply(nodes, json.people.map((person) => {
+            return {
+                data: {
+                    id: person.id,
+                    name: person.name
+                },
+                classes: "artist"
+            }
+        }));
 
+        //creating prize nodes
+        nodes.push.apply(nodes, json.prizes.map((prize) => {
+            return {
+                data: {
+                    id: prize.id,
+                    name: prize.name
+                },
+                classes: "prize"
+            }
+        }));
 
-        ],
-        edges: [
-            { data: { source: '0', target: '1' } },
-            { data: { source: '1', target: '2' } },
-            { data: { source: '1', target: '3' } },
-            { data: { source: '9', target: '5' } },
-            { data: { source: '1', target: '9' } },
-            { data: { source: '6', target: '9' } },
-            { data: { source: '6', target: '7' } },
-            { data: { source: '8', target: '1' } },
-            { data: { source: '2', target: '100' }, classes: "prize" },
-            { data: { source: '4', target: '101' }, classes: "prize" },
-            { data: { source: '1', target: '102' }, classes: "prize" }
+        //creating edges
+        /*
+        edges.push.apply(edges, json.edges.map((edge) => {
+            return {
+                data: {
+                    source: edge.source,
+                    target: edge.target
+                }
+            }
+        }));
+*/
+        json.edges.forEach(function(edge, index) {
+            edge.years.forEach(function(year, index) {
+                edges.push({
+                    data: {
+                        source: edge.source,
+                        target: edge.target,
+                        year: year
+                    }
+                });
+            });
+        });
 
-        ]
-    },
-    style: cytoscape.stylesheet()
-        .selector('node')
-        .css({
-            'content': 'data(name)',
-            'text-valign': 'top',
-            'color': '#000'
-        })
-        .selector('node.artist')
-        .css({
-            'shape': 'roundrectangle',
-            'font-size': '14',
-            'background-color': '#ECD078'
-        })
-        .selector('node.prize')
-        .css({
-            'shape': 'star',
-            'font-size': '18',
-            'font-style': 'bold',
-            'background-color': '#C02942',
-        })
-        .selector('edge.prize')
-          .css({
-            'width': '5px',
-            'target-arrow-shape': 'triangle-tee'
-          })
+        // creating cytoscape object
+        var cy = cytoscape({
+            container: document.getElementById('cy'),
 
+            elements: {
+                nodes: nodes,
+                edges: edges
+            },
+            style: cytoscape.stylesheet()
+                .selector('node')
+                .css({
+                    'content': 'data(name)',
+                    'text-valign': 'top',
+                    'color': '#000'
+                })
+                .selector('node.artist')
+                .css({
+                    'shape': 'roundrectangle',
+                    'font-size': '14',
+                    'background-color': '#ECD078'
+                })
+                .selector('node.prize')
+                .css({
+                    'shape': 'star',
+                    'font-size': '18',
+                    'font-style': 'bold',
+                    'background-color': '#C02942',
+                })
+                .selector('edge.prize')
+                .css({
+                    'width': '5px',
+                    'target-arrow-shape': 'triangle-tee'
+                })
+        });
 
+        var options = {
+            name: 'random',
+            fit: true, // whether to fit to viewport
+            padding: 10, // fit padding
+            boundingBox: undefined, // constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
+            animate: true, // whether to transition the node positions
+            animationDuration: 1500, // duration of animation in ms if enabled
+        };
 
-});
-
-var options = {
-  name: 'random',
-  fit: true, // whether to fit to viewport
-  padding: 10, // fit padding
-  boundingBox: undefined, // constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
-  animate: true, // whether to transition the node positions
-  animationDuration: 1500, // duration of animation in ms if enabled
-};
-
-cy.layout( options );
+        cy.layout(options);
+    }
+})(window);

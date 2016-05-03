@@ -1,40 +1,40 @@
-data: {
-    persons: [{
-        id: 0,
-        name: "Markus Müller",
+{
+    "people": [{
+        "id": 0,
+        "name": "Markus Müller"
     }, {
-        id: 1,
-        name: "Hellmuth Kaiser",
+        "id": 1,
+        "name": "Hellmuth Kaiser"
     }, {
-        id: 2,
-        name: "Sandra Kunz",
+        "id": 2,
+        "name": "Sandra Kunz"
     }, {
-        id: 3,
-        name: "Kevin Kist",
+        "id": 3,
+        "name": "Kevin Kist"
     }, {
-        id: 4,
-        name: "Cesto Alani",
+        "id": 4,
+        "name": "Cesto Alani"
     }, {
-        id: 5,
-        name: "Franz Bell",
+        "id": 5,
+        "name": "Franz Bell"
     }, {
-        id: 6,
-        name: "Karl Lager",
+        "id": 6,
+        "name": "Karl Lager"
     }],
-    prizes: [{
-        id: 100,
-        name: "Bildpreis Brugg",
+    "prizes": [{
+        "id": 100,
+        "name": "Bildpreis Brugg"
     }, {
-        id: 101,
-        name: "Bildpreis Aarau",
-    }, ],
-    edges: [{
-        source: 0,
-        target: 100,
-        years: ["1992", "1999"]
-    }, {
-        source: 1,
-        target: 101,
-        years: ["1999"]
+        "id": 101,
+        "name": "Bildpreis Aarau"
     }],
+    "edges": [{
+        "source": 0,
+        "target": 100,
+        "years": ["1992", "1999"]
+    }, {
+        "source": 1,
+        "target": 101,
+        "years": ["1999"]
+    }]
 }
