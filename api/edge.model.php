@@ -7,7 +7,7 @@ class Edge
 	public $years;
 
 	private function __construct() {
-		$this -> $years = [];
+		$this -> years = [];
 	}
 
 	public static function createEdgeWithAttrs($_source, $_target) {

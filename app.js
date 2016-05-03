@@ -1,5 +1,6 @@
 (function(win) {
-    $.getJSON("/api/sample_output.json", processJSON);
+    //$.getJSON("/api/sample_output.json", processJSON);
+    $.getJSON('/api/api.php', processJSON);
 
     function processJSON(json) {
         var nodes = [];
@@ -17,7 +18,7 @@
         }));
 
         //creating prize nodes
-        nodes.push.apply(nodes, json.prizes.map((prize) => {
+        nodes.push.apply(nodes, json.awards.map((prize) => {
             return {
                 data: {
                     id: prize.id,
@@ -28,7 +29,6 @@
         }));
 
         //creating edges
-        /*
         edges.push.apply(edges, json.edges.map((edge) => {
             return {
                 data: {
@@ -37,18 +37,18 @@
                 }
             }
         }));
-*/
+    /*
         json.edges.forEach(function(edge, index) {
             edge.years.forEach(function(year, index) {
                 edges.push({
                     data: {
                         source: edge.source,
                         target: edge.target,
-                        year: year
                     }
                 });
             });
         });
+    */
 
         // creating cytoscape object
         var cy = cytoscape({
@@ -68,13 +68,13 @@
                 .selector('node.artist')
                 .css({
                     'shape': 'roundrectangle',
-                    'font-size': '14',
+                    'font-size': '2',
                     'background-color': '#ECD078'
                 })
                 .selector('node.prize')
                 .css({
                     'shape': 'star',
-                    'font-size': '18',
+                    'font-size': '2',
                     'font-style': 'bold',
                     'background-color': '#C02942',
                 })
