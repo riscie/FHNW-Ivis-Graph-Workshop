@@ -1,11 +1,18 @@
 (function(win) {
-    //$.getJSON("/api/sample_output.json", processJSON);
+
+    $("#slider").on("change", function(event, ui) {
+        var startYear = parseInt($(this).val());
+        var endYear = startYear + 10;
+        $("#yearText").text(startYear + ' - ' + endYear);
+        var apiUrl = '/api/api.php?startYear=' + startYear + '&endYear=' + endYear;
+        $.getJSON(apiUrl, processJSON);
+    });
+
     $.getJSON('/api/api.php', processJSON);
 
     function processJSON(json) {
         var nodes = [];
         var edges = [];
-
         //creating people nodes
         nodes.push.apply(nodes, json.people.map((person) => {
             return {
@@ -53,10 +60,6 @@
         // creating cytoscape object
         var cy = cytoscape({
             container: document.getElementById('cy'),
-
-
-
-
 
             elements: {
                 nodes: nodes,
