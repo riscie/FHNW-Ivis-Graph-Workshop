@@ -20,7 +20,12 @@ $jsonString = file_get_contents($path);
 // get data
 $jsonData = json_decode($jsonString);
 
+// needed for debuging
 $counter = 0;
+
+// get year properties from url
+$from = $_GET['startYear'];
+$end = $_GET['endYear'];
 
 // fill data arrays
 foreach($jsonData -> rows as $stdRowObject) {
@@ -32,24 +37,31 @@ foreach($jsonData -> rows as $stdRowObject) {
 	$awardId = $stdRowObject -> award_id;
 	$awardName = $stdRowObject -> INSTITUTION_NAMENSSUCHE;
 	$year = $stdRowObject -> JAHR;
-	
-	// create person and add to array
+
 	$person = Person::createPersonWithAttrs($personId, $personName, $personFirstname);
-	$people[] = $person;
+	
 
 	// create award and add to array
 	$award = Award::createAwardWithAttrs($awardId, $awardName);
-	$awards[] = $award;
+	
 	 
 	// create edge model and add to array, if not yet added
 	$edge = Edge::createEdgeWithAttrs($personId, $awardId);
-	$edges[] = $edge;
+	
+	// create person and add to array, if filter criteria is valid
+	if(count($from) == 0 && count($end) == 0 || $year > $from && $year < $end) {
+		$people[] = $person;
+		$awards[] = $award;
+		$edges[] = $edge;
+	}
 
+	/*
 	if($counter > 100) {
 		break;
 	}
 
 	$counter++;
+	*/
 }
 
 // remove duplicates
