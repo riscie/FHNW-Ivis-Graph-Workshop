@@ -37,14 +37,14 @@
             .attr('type', 'range')
             .attr('step', step)
             .attr('min', 1890)
-            .attr('max', 2020)
+            .attr('max', 2020);
     }
 
     // load data from api
     function loadJSONData(startYear, endYear) {
         var apiUrl = '/api/api.php';
         // add startYear and endYear parameter to URL if set
-        if(startYear !== undefined && endYear !== undefined) {
+        if (startYear !== undefined && endYear !== undefined) {
             apiUrl += '?startYear=' + startYear + '&endYear=' + endYear;
         }
         // load data from API
@@ -59,35 +59,35 @@
         var nodes = [];
         var edges = [];
         //creating people nodes
-        nodes.push.apply(nodes, json.people.map((person) => {
+        nodes.push.apply(nodes, json.people.map(function(person) {
             return {
                 data: {
                     id: person.id,
                     name: person.name
                 },
                 classes: "artist"
-            }
+            };
         }));
 
         //creating award nodes
-        nodes.push.apply(nodes, json.awards.map((award) => {
+        nodes.push.apply(nodes, json.awards.map(function(award) {
             return {
                 data: {
                     id: award.id,
                     name: award.name
                 },
                 classes: "award"
-            }
+            };
         }));
 
         //creating edges
-        edges.push.apply(edges, json.edges.map((edge) => {
+        edges.push.apply(edges, json.edges.map(function(edge) {
             return {
                 data: {
                     source: edge.source,
                     target: edge.target
                 }
-            }
+            };
         }));
         /*
             json.edges.forEach(function(edge, index) {
