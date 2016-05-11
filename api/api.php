@@ -55,13 +55,11 @@ foreach($jsonData -> rows as $stdRowObject) {
 		$edges[] = $edge;
 	}
 
-	/*
 	if($counter > 100) {
 		break;
 	}
 
 	$counter++;
-	*/
 }
 
 // remove duplicates

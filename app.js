@@ -1,14 +1,59 @@
 (function(win) {
 
-    $("#slider").on("change", function(event, ui) {
+    var _startYear = 1955,
+        _step = 5;
+
+    // init functions
+    initSlider(_startYear, _step);
+    setSliderValueText(_startYear, _startYear + _step);
+
+    // load init data
+    loadJSONData(_startYear, _startYear + _step);
+
+    $("#js_slider").on("change", function(event, ui) {
+        /*
         var startYear = parseInt($(this).val());
         var endYear = startYear + 10;
         $("#yearText").text(startYear + ' - ' + endYear);
         var apiUrl = '/api/api.php?startYear=' + startYear + '&endYear=' + endYear;
         $.getJSON(apiUrl, processJSON);
+        */
+        // get slider data
+        var startYear = parseInt($(this).val());
+        var endYear = startYear + 10;
+
+        // set html text
+        setSliderValueText(startYear, endYear);
+
+        // load data from API
+        loadJSONData(startYear, endYear);
     });
 
-    $.getJSON('/api/api.php', processJSON);
+    //$.getJSON('/api/api.php', processJSON);
+
+    function initSlider(startYear, step) {
+        var $slider = $('#js_slider')
+            .attr('value', startYear)
+            .attr('type', 'range')
+            .attr('step', step)
+            .attr('min', 1890)
+            .attr('max', 2020)
+    }
+
+    // load data from api
+    function loadJSONData(startYear, endYear) {
+        var apiUrl = '/api/api.php';
+        // add startYear and endYear parameter to URL if set
+        if(startYear !== undefined && endYear !== undefined) {
+            apiUrl += '?startYear=' + startYear + '&endYear=' + endYear;
+        }
+        // load data from API
+        $.getJSON(apiUrl, processJSON);
+    }
+
+    function setSliderValueText(startYear, endYear) {
+        $("#js_yearText").text(startYear + ' - ' + endYear);
+    }
 
     function processJSON(json) {
         var nodes = [];
@@ -104,12 +149,7 @@
             //animationDuration: 1500, // duration of animation in ms if enabled
         };
 
-
-
-
         cy.layout(options);
-
-
 
     }
 })(window);
