@@ -16,5 +16,3 @@
 
 ##### Gif
 ![gif](http://langhard.com/github/ivis_cyto.gif "Application preview")
-
-
